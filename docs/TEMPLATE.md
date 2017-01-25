@@ -8,11 +8,11 @@
     * User/Instance Specific
   * Data Specific Config Files (sample grouping)
 2. **Parameters:**
-  * Tool-Specific:
+  * Defined by tool:
     * Allowed values: boolean, integer, etc.
-  * Instance-Specific:
+  * Defined by Refinery instance:
     * Allowed values: ("runtime") e.g. genome build, genome index files
-  * Dataset Specific:
+  * Defined by dataset:
     * Allowed values: e.g. "Select one or more attributes to use as tool labels"
     
 ### OUTPUTS:
