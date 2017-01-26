@@ -2,17 +2,12 @@
 1. **Files:**
   * Datafiles:
     * 1 or more FastQ files
-  * Tool-Specific Config Files (gene model, list of adapters):
-    * Dataset Specific
-    * User/Instance Specific
-  * Data Specific Config Files (sample grouping)
+  * Tool-Specific Config Files (gene model, list of adapters): NA
+  * Data Specific Config Files (sample grouping): NA
 2. **Parameters:**
-  * Defined by tool:
-    * Allowed values: boolean, integer, etc.
-  * Defined by Refinery instance:
-    * Allowed values: ("runtime") e.g. genome build, genome index files
-  * Defined by dataset:
-    * Allowed values: e.g. "Select one or more attributes to use as tool labels"
+  * Defined by tool: NA
+  * Defined by Refinery instance: NA
+  * Defined by dataset: NA
     
 ### OUTPUTS:
 1. **Files:**
@@ -20,5 +15,5 @@
     * `fastqc_report`: ZIP archive
     * `fastqc_results`: Tabular file
 2. **Status:**
-  * `RUNNING`, `FAILED`, `SUCCESS`
-3. **State:** (For Vizualization Tools)
+  * standard analysis/workflow statuses (`RUNNING`, `FAILED`, `SUCCESS`, `UNKNOWN`)
+3. **State:**: NA
