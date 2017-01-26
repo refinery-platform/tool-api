@@ -17,6 +17,7 @@
 ### OUTPUTS:
 1. **Files:**
   * Description, Name, Type
+    * `accepted_hits`: Bam file
     * `feature_counts`: Tabular file
     * `feature_counts_summary`: Tabular file
 2. **Status:**
