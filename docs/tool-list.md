@@ -1,5 +1,6 @@
 # Existing Tools
 
+- workflow: RNA-seq single end with TopHat
 - workflow: RNA-seq paired end with TopHat (paired input workflow)
 - workflow: FASTQC (single input workflow)
 - workflow: TF ChIP-Seq analysis using MACS2 (single input workflow)
