@@ -1,0 +1,170 @@
+---
+swagger: "2.0"
+info:
+  description: "Tool Definitions API"
+  version: "1.0.3"
+  title: "Tool Definitions API"
+host: "virtserver.swaggerhub.com"
+basePath: "/scottx611x/Tool_Definitions_API/1.0.3"
+schemes:
+- "https"
+paths:
+  /tools/definitions/:
+    get:
+      summary: "Fetches all available tool definitions"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Search results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ToolDefinition"
+    post:
+      summary: "Creates a ToolDefinition"
+      description: "Creates a ToolDefinition"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "definition"
+        description: "Tool definition item to add."
+        required: false
+        schema:
+          $ref: "#/definitions/ToolDefinition"
+      responses:
+        201:
+          description: "item created"
+        400:
+          description: "invalid input, object invalid"
+definitions:
+  ToolDefinition:
+    type: "object"
+    required:
+    - "description"
+    - "name"
+    - "parameters"
+    - "type"
+    properties:
+      name:
+        type: "string"
+        example: "RNA-Seq single input"
+      description:
+        type: "string"
+        example: "A workflow based on TopHat2 to quantify RNA-seq transcript levels\
+          \ as counts."
+      type:
+        type: "string"
+        example: "Workflow"
+        enum:
+        - "Workflow"
+        - "Visualization"
+      parameters:
+        type: "array"
+        items:
+          $ref: "#/definitions/Parameter"
+      file_relationships:
+        $ref: "#/definitions/ToolDefinition_file_relationships"
+      output_files:
+        type: "array"
+        items:
+          $ref: "#/definitions/OutputFile"
+  FileType:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "fastq"
+  InputFile:
+    type: "object"
+    required:
+    - "allowed_filetypes"
+    - "description"
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "InputA"
+      description:
+        type: "string"
+        example: "InputA of pair1"
+      allowed_filetypes:
+        type: "array"
+        items:
+          $ref: "#/definitions/FileType"
+  OutputFile:
+    type: "object"
+    required:
+    - "description"
+    - "file_type"
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "broadpeaks.bed"
+      description:
+        type: "string"
+        example: "Peaks called by MACS2."
+      file_type:
+        type: "string"
+        example: "bed"
+  Parameter:
+    type: "object"
+    required:
+    - "default_value"
+    - "description"
+    - "galaxy_tool_id"
+    - "galaxy_tool_parameter"
+    - "name"
+    - "value_type"
+    properties:
+      name:
+        type: "string"
+        example: "Genome Build"
+      description:
+        type: "string"
+        example: "The genome build to use for this workflow. Has to be installed in\
+          \ Galaxy workflow engine."
+      value_type:
+        type: "string"
+        example: "genome_build"
+        enum:
+        - "integer"
+        - "string"
+        - "boolean"
+        - "float"
+        - "genome_build"
+        - "attribute"
+        - "file"
+      default_value:
+        type: "string"
+        example: "hg19"
+      galaxy_tool_id:
+        type: "string"
+        example: "TopHat2"
+      galaxy_tool_parameter:
+        type: "string"
+        example: "genome"
+  ToolDefinition_file_relationships:
+    required:
+    - "input_files"
+    - "mapping_designation"
+    properties:
+      input_files:
+        type: "array"
+        items:
+          $ref: "#/definitions/InputFile"
+      mapping_designation:
+        type: "string"
+        example: "list:pair"
+        enum:
+        - "list"
+        - "pair"
+        - "list:pair"
+        - "list:list"
