@@ -71,12 +71,37 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Parameter"
-      input_files:
-        $ref: "#/definitions/ToolDefinition_input_files"
+      file_relationships:
+        $ref: "#/definitions/ToolDefinition_file_relationships"
       output_files:
         type: "array"
         items:
           $ref: "#/definitions/OutputFile"
+  FileType:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "fastq"
+  InputFile:
+    type: "object"
+    required:
+    - "allowed_filetypes"
+    - "description"
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "InputA"
+      description:
+        type: "string"
+        example: "InputA of pair1"
+      allowed_filetypes:
+        type: "array"
+        items:
+          $ref: "#/definitions/FileType"
   OutputFile:
     type: "object"
     required:
@@ -98,8 +123,9 @@ definitions:
     required:
     - "default_value"
     - "description"
+    - "galaxy_tool_id"
+    - "galaxy_tool_parameter"
     - "name"
-    - "tool_parameter"
     - "value_type"
     properties:
       name:
@@ -126,13 +152,23 @@ definitions:
       galaxy_tool_id:
         type: "string"
         example: "TopHat2"
-      tool_parameter:
+      galaxy_tool_parameter:
         type: "string"
         example: "genome"
-  ToolDefinition_input_files:
+  ToolDefinition_file_relationships:
     required:
-    - "file_relationships"
+    - "input_files"
+    - "mapping_designation"
     properties:
-      file_relationships:
-        type: "object"
-        properties: {}
+      input_files:
+        type: "array"
+        items:
+          $ref: "#/definitions/InputFile"
+      mapping_designation:
+        type: "string"
+        example: "list:pair"
+        enum:
+        - "list"
+        - "pair"
+        - "list:pair"
+        - "list:list"
