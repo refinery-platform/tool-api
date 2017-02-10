@@ -156,6 +156,9 @@ definitions:
         type: "string"
         example: "genome"
   ToolDefinition_file_relationships:
+    required:
+    - "input_files"
+    - "mapping_designation"
     properties:
       input_files:
         type: "array"
