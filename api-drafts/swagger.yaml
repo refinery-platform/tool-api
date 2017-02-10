@@ -15,7 +15,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "Access-Control-Allow-Origin"
+      - name: "Access-Control-Allow-monkey"
         in: "header"
         required: false
         type: "string"
