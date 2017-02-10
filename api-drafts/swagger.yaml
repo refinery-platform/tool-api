@@ -71,8 +71,8 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Parameter"
-      input_files:
-        $ref: "#/definitions/ToolDefinition_input_files"
+      file_relationships:
+        $ref: "#/definitions/ToolDefinition_file_relationships"
       output_files:
         type: "array"
         items:
@@ -155,7 +155,7 @@ definitions:
       galaxy_tool_parameter:
         type: "string"
         example: "genome"
-  ToolDefinition_input_files_file_relationships:
+  ToolDefinition_file_relationships:
     properties:
       input_files:
         type: "array"
@@ -169,7 +169,3 @@ definitions:
         - "pair"
         - "list:pair"
         - "list:list"
-  ToolDefinition_input_files:
-    properties:
-      file_relationships:
-        $ref: "#/definitions/ToolDefinition_input_files_file_relationships"
