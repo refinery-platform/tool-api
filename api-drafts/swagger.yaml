@@ -19,7 +19,7 @@ paths:
         in: "header"
         required: false
         type: "string"
-        default: "true"
+        default: "True"
       responses:
         200:
           description: "Search results matching criteria"
