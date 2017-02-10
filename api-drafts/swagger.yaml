@@ -2,22 +2,22 @@
 swagger: "2.0"
 info:
   description: "Tool Definitions API"
-  version: "1.0.2"
+  version: "1.0.3"
   title: "Tool Definitions API"
 host: "virtserver.swaggerhub.com"
-basePath: "/scottx611x/Tool_Definitions_API/1.0.2"
+basePath: "/scottx611x/Tool_Definitions_API/1.0.3"
 schemes:
 - "https"
 paths:
   /tools/definitions/:
     get:
-      summary: "Fetches all available tool definitions."
+      summary: "Fetches all available tool definitions"
       produces:
       - "application/json"
       parameters: []
       responses:
         200:
-          description: "search results matching criteria"
+          description: "Search results matching criteria"
           schema:
             type: "array"
             items:
