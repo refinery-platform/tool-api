@@ -5,11 +5,11 @@ info:
   version: "1.0.3"
   title: "Tool Definitions API"
 host: "virtserver.swaggerhub.com"
-basePath: "/scottx611x/Tool_Definitions_API/1.0.3/"
+basePath: "/scottx611x/Tool_Definitions_API/1.0.3"
 schemes:
 - "https"
 paths:
-  tools/definitions:
+  /tools/definitions:
     get:
       summary: "Fetches all available tool definitions"
       produces:
