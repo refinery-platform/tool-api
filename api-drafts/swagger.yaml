@@ -14,7 +14,12 @@ paths:
       summary: "Fetches all available tool definitions"
       produces:
       - "application/json"
-      parameters: []
+      parameters:
+      - name: "Access-Control-Allow-Origin"
+        in: "header"
+        required: false
+        type: "string"
+        default: "true"
       responses:
         200:
           description: "Search results matching criteria"
