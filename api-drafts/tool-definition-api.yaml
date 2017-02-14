@@ -1,174 +1,234 @@
 ---
-swagger: "2.0"
+swagger: '2.0'
 info:
-  description: "Tool Definitions API"
-  version: "1.0.3"
-  title: "Tool Definitions API"
-host: "virtserver.swaggerhub.com"
-basePath: "/scottx611x/Tool_Definitions_API/1.0.3"
-schemes:
-- "https"
+  description: Tool Definitions API
+  version: "1.0.4"
+  title: Tool Definitions API
+
 paths:
   /tools/definitions/:
-    get:
-      summary: "Fetches all available tool definitions"
-      produces:
-      - "application/json"
-      parameters: []
-      responses:
+    get: 
+      summary: Fetches all available tool definitions
+      produces:  
+        - application/json
+      responses: 
         200:
-          description: "Search results matching criteria"
+          description: Search results matching criteria
           schema:
-            type: "array"
+            type: array
             items:
-              $ref: "#/definitions/ToolDefinition"
-        400:
-          description: "bad input parameter"
+              $ref: '#/definitions/ToolDefinition'
     post:
-      summary: "Creates a ToolDefinition"
-      description: "Creates a ToolDefinition"
+      summary: Creates a ToolDefinition
+      description: Creates a ToolDefinition
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+       - application/json
       parameters:
-      - in: "body"
-        name: "definition"
-        description: "Tool definition item to add."
-        required: false
+      - in: body
+        name: definition
+        description: Tool definition item to add.
         schema:
-          $ref: "#/definitions/ToolDefinition"
+          $ref: '#/definitions/ToolDefinition'
       responses:
         201:
-          description: "item created"
+          description: item created
         400:
-          description: "invalid input, object invalid"
-        409:
-          description: "an existing Tool Definition with that name already exists"
+          description: invalid input, object invalid
+          
 definitions:
   ToolDefinition:
-    type: "object"
+    type: object
     required:
-    - "description"
-    - "name"
-    - "parameters"
-    - "type"
+      - name
+      - description
+      - type
+      - file_relationships
+      - parameters
     properties:
       name:
-        type: "string"
-        example: "RNA-Seq single input"
+        type: string
+        example: RNA-Seq single input
       description:
-        type: "string"
-        example: "A workflow based on TopHat2 to quantify RNA-seq transcript levels\
-          \ as counts."
+        type: string
+        example: A workflow based on TopHat2 to quantify RNA-seq transcript levels as counts.
       type:
-        type: "string"
-        example: "Workflow"
-        enum:
-        - "Workflow"
-        - "Visualization"
+        type: string
+        enum: 
+          - Workflow
+          - Visualization
+        example: Workflow
       parameters:
-        type: "array"
+        type: array
         items:
-          $ref: "#/definitions/Parameter"
+          $ref: '#/definitions/Parameter'
       file_relationships:
-        $ref: "#/definitions/ToolDefinition_file_relationships"
+        $ref: '#/definitions/FileRelationship'
       output_files:
-        type: "array"
+        type: array
         items:
-          $ref: "#/definitions/OutputFile"
+          $ref: '#/definitions/OutputFile'
+          
+  # Note this is a Refinery Model Already
   FileType:
-    type: "object"
-    required:
-    - "name"
+    type: object
+    required: 
+      - name
     properties:
-      name:
-        type: "string"
+      name: 
+        type: string
         example: "fastq"
-  InputFile:
-    type: "object"
+  
+  FileRelationship:
+    type: object
     required:
-    - "allowed_filetypes"
-    - "description"
-    - "name"
+      - name
+      - type
+     
     properties:
       name:
-        type: "string"
+        type: string
+        example: "blabla"
+      type:
+        type: string
+        enum:
+          - pair
+          - list
+        example: "pair"
+      input_files: # use this for the inner most elements of the data structure
+        type: array
+        items:
+          $ref: '#/definitions/InputFile'
+      nested_elements: # use this to nest structures (e.g. a pair within a list or two lists in a pair)
+        type: array
+        items: # for type "list" there has to be exactly 1 nested element, for type "pair" there have to be exactly 2 nested elements
+          $ref: '#/definitions/FileRelationship'
+    example: 
+    # Note: many file relationships listed here just as an example
+      - name: List of Paired Samples
+        type: list
+        input_files: []
+        nested_elements:
+          - name: ChIP vs Input Pair
+            type: pair
+            input_files:
+              - name: ChIP file
+                description: File with actual signal
+                allowed_filetypes:
+                  - bam
+                  - fastq
+              - name: Input file
+                description: File with background signal
+                allowed_filetypes:
+                  - bam
+                  - fastq
+            nested_elements: []
+            
+      - name: Flat List example
+        type: list
+        input_files:
+          - name: input File
+            description: input file decription
+            allowed_filetypes:
+              - fastq
+        nested_elements: []
+      
+      - name: List:list Example
+        type: list
+        input_files: []
+        nested_elements:
+          - name: List A
+            type: list
+            input_files:
+              - name: inupt File list A
+                description: inupt File list A description
+                allowed_filetypes:
+                  - fastq
+                nested_elements: []
+          - name: List B
+            type: list
+            input_files:
+              - name: inupt File list B
+                description: inupt File list B description
+                allowed_filetypes:
+                  - fastq
+            nested_elements: []
+            
+  InputFile:
+    type: object
+    required: 
+      - name
+      - description
+      - allowed_filetypes
+    properties:
+      name: 
+        type: string
         example: "InputA"
       description:
-        type: "string"
-        example: "InputA of pair1"
+        type: string
+        example: InputA of pair1
       allowed_filetypes:
-        type: "array"
+        type: array
         items:
-          $ref: "#/definitions/FileType"
+         $ref: '#/definitions/FileType'
+        example: ["fastq", "bed"]
+         
   OutputFile:
-    type: "object"
-    required:
-    - "description"
-    - "file_type"
-    - "name"
+    type: object
+    required: 
+      - name
+      - description
+      - file_type
     properties:
-      name:
-        type: "string"
+      name: 
+        type: string
         example: "broadpeaks.bed"
       description:
-        type: "string"
-        example: "Peaks called by MACS2."
+        type: string
+        example: Peaks called by MACS2.
       file_type:
-        type: "string"
+        type: string
         example: "bed"
+        
   Parameter:
-    type: "object"
+    type: object
     required:
-    - "default_value"
-    - "description"
-    - "galaxy_tool_id"
-    - "galaxy_tool_parameter"
-    - "name"
-    - "value_type"
+      - name
+      - description
+      - value_type
+      - default_value # should be optional
+      - galaxy_tool_id
+      - galaxy_tool_parameter
     properties:
       name:
-        type: "string"
-        example: "Genome Build"
+        type: string
+        example: Genome Build
       description:
-        type: "string"
-        example: "The genome build to use for this workflow. Has to be installed in\
-          \ Galaxy workflow engine."
+        type: string
+        example: The genome build to use for this workflow. Has to be installed in Galaxy workflow engine.
       value_type:
-        type: "string"
-        example: "genome_build"
-        enum:
-        - "integer"
-        - "string"
-        - "boolean"
-        - "float"
-        - "genome_build"
-        - "attribute"
-        - "file"
+        type: string
+        enum: 
+          - integer
+          - string
+          - boolean
+          - float
+          - genome_build # defined by instance: uses internal list of genome builds installed in the workflow engine
+          - attribute #Should this be a list? defined by data set: allows any attribute field of the data set
+          - file # selection of any file/node from a data set
+        example: genome_build
       default_value:
-        type: "string"
-        example: "hg19"
+        type: string
+        example: hg19
       galaxy_tool_id:
-        type: "string"
-        example: "TopHat2"
+        type: string
+        example: TopHat2 # check if this is possible and a correct tool name
       galaxy_tool_parameter:
-        type: "string"
-        example: "genome"
-  ToolDefinition_file_relationships:
-    required:
-    - "input_files"
-    - "mapping_designation"
-    properties:
-      input_files:
-        type: "array"
-        items:
-          $ref: "#/definitions/InputFile"
-      mapping_designation:
-        type: "string"
-        example: "list:pair"
-        enum:
-        - "list"
-        - "pair"
-        - "list:pair"
-        - "list:list"
+        type: string
+        example: genome # check what the actual tool parameter name is and replace
+        
+host: virtserver.swaggerhub.com
+basePath: /scottx611x/Tool_Definitions_API/1.0.4
+schemes:
+ - https
